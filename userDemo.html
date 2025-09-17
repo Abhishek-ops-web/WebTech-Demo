@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WebTech Practice Dashboard</title>
+  <style>
+    /* Base Light Theme Variables */
+    :root {
+      --primary-bg: #f9fafb;
+      --sidebar-bg: #e5e7eb;
+      --card-bg: #ffffff;
+      --highlight: #6366f1;
+      --text-light: #1f2937;
+      --text-muted: #6b7280;
+      --border: #d1d5db;
+      --radius: 12px;
+    }
+
+    /* Dark theme overrides */
+    body.dark {
+      --primary-bg: #0f172a;
+      --sidebar-bg: #111827;
+      --card-bg: #1e293b;
+      --highlight: #6366f1;
+      --text-light: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--primary-bg);
+      color: var(--text-light);
+      display: flex;
+      min-height: 100vh;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .sidebar {
+      background: var(--sidebar-bg);
+      width: 240px;
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: background-color 0.3s;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .avatar {
+      background: #3b82f6;
+      color: white;
+      font-weight: bold;
+      padding: 0.8rem;
+      border-radius: 999px;
+      user-select: none;
+    }
+
+    .profile-details {
+      line-height: 1.2;
+    }
+
+    .nav-section {
+      margin-bottom: 2rem;
+    }
+
+    .nav-title {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      user-select: none;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 0.6rem;
+      border-radius: var(--radius);
+      color: var(--text-light);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      font-size: 0.95rem;
+      gap: 0.5rem;
+      user-select: none;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: var(--highlight);
+      color: white;
+    }
+
+    .main {
+      flex: 1;
+      padding: 1.5rem 2rem;
+      position: relative;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      user-select: none;
+    }
+
+    .header .logo {
+      color: var(--highlight);
+      font-weight: 700;
+      text-shadow:
+        0 0 8px var(--highlight),
+        0 0 12px var(--highlight);
+    }
+
+    .theme-toggle {
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255 255 255 / 0.05);
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      user-select: none;
+    }
+
+    .theme-toggle:hover {
+      background: var(--highlight);
+      color: white;
+      border-color: var(--highlight);
+    }
+
+    .dashboard-card {
+      border: 1px solid var(--highlight);
+      border-radius: var(--radius);
+      padding: 2rem;
+      background: var(--card-bg);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .dashboard-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .dashboard-card p {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: rgba(0 0 0 / 0.05);
+      border: 1px solid rgba(0 0 0 / 0.1);
+      border-radius: var(--radius);
+      padding: 1rem;
+      font-size: 0.9rem;
+      transition:
+        background-color 0.3s,
+        border-color 0.3s;
+    }
+
+    body.dark .stat-card {
+      background: rgba(255 255 255 / 0.05);
+      border: 1px solid rgba(255 255 255 / 0.1);
+    }
+
+    .stat-card h4 {
+      margin-top: 0.6rem;
+      font-size: 1rem;
+      user-select: none;
+    }
+
+    .progress-bar {
+      margin-top: 0.8rem;
+      background: #cbd5e1;
+      height: 5px;
+      border-radius: 5px;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    body.dark .progress-bar {
+      background: #475569;
+    }
+
+    .progress {
+      height: 100%;
+      background: #8b5cf6;
+      transition: width 0.3s ease;
+      user-select: none;
+    }
+
+    .quick-actions {
+      margin-top: 2rem;
+    }
+
+    .quick-actions h3 {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .action-btn {
+      flex: 1 1 250px;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      transition: background 0.3s, border-color 0.3s;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .action-btn:hover {
+      background: var(--card-bg);
+    }
+
+    .action-btn span {
+      display: block;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    .action-btn p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body class="dark">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <div class="profile">
+        <div class="avatar">DU</div>
+        <div class="profile-details">
+          <div><strong>Demo User</strong></div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">demo@webtech.practice</div>
+        </div>
+      </div>
+
+    <div class="nav-section">
+  <div class="nav-title">Dashboard</div>
+  <div class="nav-item active" onclick="window.location.href='userDemo.html'">🏠 Overview</div>
+  <div class="nav-item" onclick="window.location.href='userProfile.html'">👤 Profile Settings</div>
+  <div class="nav-item" onclick="window.location.href='userSecurity.html'">🔒 Security</div>
+  <div class="nav-item" onclick="window.location.href='userNotification.html'">🔔 Notifications</div>
+</div>
+
+<div class="nav-section">
+  <div class="nav-title">Quick Actions</div>
+  <div class="nav-item" onclick="window.location.href='helpSupport.html'">💬 Help & Support</div>
+</div>
+
+<div class="nav-section">
+  <div class="nav-title">Account</div>
+  <div class="nav-item" onclick="window.location.href='index.html'">🚪 Sign Out</div>
+</div>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="header">
+      <div class="logo">WebTech Practice • Dashboard</div>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">🌓 Theme</button>
+    </div>
+
+    <div class="dashboard-card">
+      <h2>Welcome back, Demo User 👋</h2>
+      <p>Manage your profile settings and account preferences. Your data is securely stored in your browser's localStorage.</p>
+
+      <div class="grid">
+        <div class="stat-card">
+          🎨
+          <h4>Theme</h4>
+          <p>Dark/Light mode persisted across all pages</p>
+          <div class="progress-bar"><div class="progress" style="width: 100%;"></div></div>
+        </div>
+        <div class="stat-card">
+          🔐
+          <h4>Authentication</h4>
+          <p>Secure session stored in browser storage</p>
+          <div class="progress-bar"><div class="progress" style="width: 80%;"></div></div>
+        </div>
+        <div class="stat-card">
+          📝
+          <h4>Profile</h4>
+          <p>20% profile completed (1/5 fields)</p>
+          <div class="progress-bar"><div class="progress" style="width: 20%;"></div></div>
+        </div>
+        <div class="stat-card">
+          🛡️
+          <h4>Security</h4>
+          <p>Password protection and account security</p>
+          <div class="progress-bar"><div class="progress" style="width: 90%;"></div></div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <h3>Quick Actions</h3>
+        <div class="action-buttons">
+          <div class="action-btn">
+            ✏️ <span>Edit Profile</span>
+            <p>Update your personal information</p>
+          </div>
+          <div class="action-btn">
+            🔐 <span>Change Password</span>
+            <p>Update your account security</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Load saved theme preference from localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      if(savedTheme === 'light') {
+        body.classList.remove('dark');
+      } else {
+        body.classList.add('dark');
+      }
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      // Save preference
+      if(body.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  </script>
+</body>
+</html>

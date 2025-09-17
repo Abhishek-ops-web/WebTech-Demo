@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Account | WebTech Practice</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Dark Mode */
+    body.dark {
+      background: radial-gradient(circle at 30% 30%, #1e2a38, #0f172a);
+      color: white;
+    }
+
+    /* Light Mode */
+    body.light {
+      background: radial-gradient(circle at 30% 30%, #e3e9f2, #ffffff);
+      color: #111;
+    }
+
+    .signup-container {
+      padding: 2rem;
+      width: 450px;
+      border-radius: 16px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+      transition: background 0.3s, color 0.3s, border 0.3s;
+    }
+
+    /* Dark container */
+    body.dark .signup-container {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    /* Light container */
+    body.light .signup-container {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #ddd;
+      color: #111;
+    }
+
+    .signup-container h2 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .signup-container p {
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    body.dark .signup-container p {
+      color: #ccc;
+    }
+
+    body.light .signup-container p {
+      color: #444;
+    }
+
+    .demo-note {
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    body.dark .demo-note {
+      background-color: rgba(59, 130, 246, 0.1);
+      color: #93c5fd;
+    }
+
+    body.light .demo-note {
+      background-color: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: 1px solid #333;
+      transition: background 0.3s, color 0.3s, border 0.3s;
+    }
+
+    /* Dark input */
+    body.dark input {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    body.dark input::placeholder {
+      color: #aaa;
+    }
+
+    /* Light input */
+    body.light input {
+      background-color: #fff;
+      border: 1px solid #aaa;
+      color: #111;
+    }
+
+    body.light input::placeholder {
+      color: #777;
+    }
+
+    .password-note {
+      font-size: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    body.dark .password-note {
+      color: #999;
+    }
+
+    body.light .password-note {
+      color: #666;
+    }
+
+    .terms {
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .terms input {
+      margin-right: 0.4rem;
+    }
+
+    .terms a {
+      color: #4ea1f3;
+      text-decoration: none;
+    }
+
+    .create-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s;
+    }
+
+    .create-btn:hover {
+      background: linear-gradient(90deg, #2563eb, #1d4ed8);
+    }
+
+    .bottom-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .bottom-actions a {
+      text-decoration: none;
+    }
+
+    body.dark .bottom-actions a {
+      color: #ccc;
+    }
+
+    body.light .bottom-actions a {
+      color: #333;
+    }
+
+    .bottom-actions button {
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    body.dark .bottom-actions button {
+      background: #1e293b;
+      color: white;
+    }
+
+    body.light .bottom-actions button {
+      background: #ddd;
+      color: #111;
+    }
+
+    .bottom-buttons {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .bottom-buttons button {
+      padding: 0.4rem 0.8rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.3s;
+    }
+
+    body.dark .bottom-buttons button {
+      background: #1e293b;
+      color: white;
+    }
+
+    body.light .bottom-buttons button {
+      background: #ddd;
+      color: #111;
+    }
+
+    .emoji {
+      margin-left: 0.4rem;
+    }
+
+    @media(max-width: 500px) {
+      .form-row {
+        flex-direction: column;
+      }
+
+      .signup-container {
+        width: 90%;
+      }
+
+      .bottom-actions {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body class="dark"> <!-- default dark mode -->
+
+  <div class="signup-container">
+    <h2>Create your account <span class="emoji">✨</span></h2>
+    <p>Sign up to access the practice dashboard.</p>
+
+    <div class="demo-note">
+      This is a demo signup—data stays in your browser.
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="firstName">First name</label>
+        <input type="text" id="firstName" placeholder="Ada" />
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last name</label>
+        <input type="text" id="lastName" placeholder="Lovelace" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="you@example.com" />
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••" />
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm password</label>
+        <input type="password" id="confirmPassword" placeholder="••••••" />
+      </div>
+    </div>
+
+    <div class="password-note">
+      Use at least 8 characters, with letters & numbers.
+    </div>
+
+    <div class="terms">
+      <label><input type="checkbox" id="agree" /> I agree to the <a href="#">Terms</a></label>
+    </div>
+
+    <button class="create-btn" onclick="window.location.href='index.html'">Create Account</button>
+
+    <div class="bottom-actions">
+      <a href="index.html">Already have an account? Sign in</a>
+      <button>🧪 Seed Demo Users</button>
+    </div>
+  </div>
+
+  <div class="bottom-buttons">
+    <button onclick="toggleTheme()">🎨 Theme</button>
+    <button>💡 Tips</button>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      if (body.classList.contains("dark")) {
+        body.classList.remove("dark");
+        body.classList.add("light");
+      } else {
+        body.classList.remove("light");
+        body.classList.add("dark");
+      }
+    }
+  </script>
+
+</body>
+</html>

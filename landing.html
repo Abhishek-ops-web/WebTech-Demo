@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebTech Practice</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --text-color: #f1f5f9;
+      --text-muted: #94a3b8;
+      --btn-bg: linear-gradient(to right, #2563eb, #3b82f6);
+      --btn-text: #fff;
+    }
+
+    body.light {
+      --bg-color: #ffffff;
+      --card-bg: #f1f5f9;
+      --text-color: #0f172a;
+      --text-muted: #475569;
+      --btn-bg: linear-gradient(to right, #3b82f6, #60a5fa);
+      --btn-text: #fff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
+      line-height: 1.6;
+      padding: 0 1rem;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: var(--card-bg);
+      border-radius: 12px;
+      margin: 1rem auto;
+      max-width: 1200px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.3rem;
+      background: linear-gradient(to right, #60a5fa, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(59, 130, 246, 0.8),
+                   0 0 20px rgba(59, 130, 246, 0.6);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-size: 0.95rem;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #3b82f6;
+    }
+
+    .theme-toggle {
+      cursor: pointer;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--text-muted);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      background: none;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn {
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: 0.3s;
+      white-space: nowrap;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--text-muted);
+      color: var(--text-color);
+    }
+
+    .btn-outline:hover {
+      border-color: #3b82f6;
+      color: #3b82f6;
+    }
+
+    .btn-primary {
+      background: var(--btn-bg);
+      color: var(--btn-text);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 2rem;
+      padding: 3rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero .cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Feature Card with Carousel */
+    .feature-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .carousel {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .carousel-inner {
+      position: relative;
+      height: 150px;
+    }
+
+    .carousel-item {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    .carousel-item.active {
+      opacity: 1;
+      position: relative;
+    }
+
+    .carousel-item h3 {
+      margin-bottom: 0.8rem;
+      font-size: 1.2rem;
+    }
+
+    .carousel-item p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .dot.active {
+      background: #3b82f6;
+    }
+
+    /* Carousel Arrows */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 0.8rem;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    .carousel-arrow:hover {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .carousel-arrow.left {
+      left: 10px;
+    }
+
+    .carousel-arrow.right {
+      right: 10px;
+    }
+
+    /* About */
+    .about {
+      text-align: center;
+      padding: 4rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .about h2 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .about p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero .cta {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      .nav-links {
+        gap: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">WebTech Practice</div>
+    <div class="nav-links">
+      <a href="about.html">About</a>
+      <a href="included.html">Services</a>
+      <a href="#">Pricing</a>
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <span id="theme-icon">☀️</span> Theme
+      </button>
+      <a href="index.html" class="btn btn-outline">Log In</a>
+      <a href="create.html" class="btn btn-primary">Sign Up</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Launch your Web Tech practice site in minutes</h1>
+      <p>A clean, modern starter template with Login, Signup, Dashboard, Profile and Logout pages using only HTML, CSS and JavaScript. Perfect for learning and practicing web development fundamentals.</p>
+      <div class="cta">
+        <a href="create.html" class="btn btn-primary">Get Started</a>
+        <a href="#" class="btn btn-outline">Watch Demo</a>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <h3>Practice-First Design</h3>
+            <p>Easily customizable components, clean structure, responsive layout, and modern style.</p>
+          </div>
+          <div class="carousel-item">
+            <h3>Responsive Layout</h3>
+            <p>Seamlessly adapts to desktops, tablets, and smartphones without extra coding.</p>
+          </div>
+          <div class="carousel-item">
+            <h3>Beginner Friendly</h3>
+            <p>No frameworks required. Simple HTML, CSS, and JavaScript to get you started fast.</p>
+          </div>
+        </div>
+        <button class="carousel-arrow left" onclick="prevSlide()">&#10094;</button>
+        <button class="carousel-arrow right" onclick="nextSlide()">&#10095;</button>
+        <div class="carousel-dots">
+          <div class="dot active" onclick="goToSlide(0)"></div>
+          <div class="dot" onclick="goToSlide(1)"></div>
+          <div class="dot" onclick="goToSlide(2)"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about">
+    <h2>About This Project</h2>
+    <p>
+      This comprehensive template is designed for students and developers to practice modern web fundamentals: semantic HTML, responsive CSS, and functional JavaScript. It’s clean, lightweight, and beginner-friendly — without any frameworks or complex installations.
+    </p>
+  </section>
+
+  <script>
+    // Theme toggle
+    function toggleTheme() {
+      document.body.classList.toggle("light");
+      const icon = document.getElementById("theme-icon");
+      icon.textContent = document.body.classList.contains("light") ? "🌙" : "☀️";
+    }
+
+    // Carousel
+    let currentIndex = 0;
+    const slides = document.querySelectorAll(".carousel-item");
+    const dots = document.querySelectorAll(".dot");
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove("active");
+        dots[i].classList.remove("active");
+        if (i === index) {
+          slide.classList.add("active");
+          dots[i].classList.add("active");
+        }
+      });
+      currentIndex = index;
+    }
+
+    function nextSlide() {
+      let newIndex = (currentIndex + 1) % totalSlides;
+      showSlide(newIndex);
+    }
+
+    function prevSlide() {
+      let newIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      showSlide(newIndex);
+    }
+
+    function goToSlide(index) {
+      showSlide(index);
+    }
+
+    setInterval(nextSlide, 5000); // auto-slide every 5 sec
+  </script>
+</body>
+</html>
